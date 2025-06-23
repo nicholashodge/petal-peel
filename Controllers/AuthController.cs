@@ -118,45 +118,84 @@ public class AuthController : ControllerBase
         return NotFound();
     }
 
+    // [HttpPost("register")]
+    // public async Task<IActionResult> Register(RegistrationDTO registration)
+    // {
+    //     var user = new IdentityUser
+    //     {
+    //         UserName = registration.UserName,
+    //         Email = registration.Email
+    //     };
+
+    //     var password = Encoding
+    //         .GetEncoding("iso-8859-1")
+    //         .GetString(Convert.FromBase64String(registration.Password));
+
+    //     var result = await _userManager.CreateAsync(user, password);
+    //     if (result.Succeeded)
+    //     {
+    //         _dbContext.UserProfiles.Add(new UserProfile
+    //         {
+    //             FirstName = registration.FirstName,
+    //             LastName = registration.LastName,
+    //             IdentityUserId = user.Id,
+    //         });
+    //         _dbContext.SaveChanges();
+
+    //         var claims = new List<Claim>
+    //             {
+    //                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+    //                 new Claim(ClaimTypes.Name, user.UserName.ToString()),
+    //                 new Claim(ClaimTypes.Email, user.Email)
+
+    //             };
+    //         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+    //         HttpContext.SignInAsync(
+    //         CookieAuthenticationDefaults.AuthenticationScheme,
+    //         new ClaimsPrincipal(claimsIdentity)).Wait();
+
+    //         return Ok();
+    //     }
+    //     return StatusCode(500);
+    // }
+
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegistrationDTO registration)
+public async Task<IActionResult> Register(RegistrationDTO registration)
+{
+    var user = new IdentityUser
     {
-        var user = new IdentityUser
+        UserName = registration.UserName,
+        Email = registration.Email
+    };
+    
+    var result = await _userManager.CreateAsync(user, registration.Password);
+    if (result.Succeeded)
+    {
+        _dbContext.UserProfiles.Add(new UserProfile
         {
-            UserName = registration.UserName,
-            Email = registration.Email
+            FirstName = registration.FirstName,
+            LastName = registration.LastName,
+            IdentityUserId = user.Id,
+        });
+        await _dbContext.SaveChangesAsync();
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.Email, user.Email)
         };
 
-        var password = Encoding
-            .GetEncoding("iso-8859-1")
-            .GetString(Convert.FromBase64String(registration.Password));
-
-        var result = await _userManager.CreateAsync(user, password);
-        if (result.Succeeded)
-        {
-            _dbContext.UserProfiles.Add(new UserProfile
-            {
-                FirstName = registration.FirstName,
-                LastName = registration.LastName,
-                IdentityUserId = user.Id,
-            });
-            _dbContext.SaveChanges();
-
-            var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.UserName.ToString()),
-                    new Claim(ClaimTypes.Email, user.Email)
-
-                };
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            HttpContext.SignInAsync(
+        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
-            new ClaimsPrincipal(claimsIdentity)).Wait();
+            new ClaimsPrincipal(claimsIdentity));
 
-            return Ok();
-        }
-        return StatusCode(500);
+        return Ok();
     }
+
+    return BadRequest(result.Errors);
+}
+
 }

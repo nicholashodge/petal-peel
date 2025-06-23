@@ -3,7 +3,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { tryGetLoggedInUser } from "./managers/authManager";
 import { Spinner } from "reactstrap";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/Navbar";
 import ApplicationViews from "./components/ApplicationViews";
 
 function App() {

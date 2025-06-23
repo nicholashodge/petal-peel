@@ -32,9 +32,13 @@ public class PetalPeelDbContext : IdentityDbContext<IdentityUser>
         {
             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
             UserName = "Administrator",
+            NormalizedUserName = "ADMINISTRATOR",
             Email = "admina@strator.comx",
-            PasswordHash = "AQAAAAIAAYagAAAAED+ci5mOXpsPBnPUJRxvX..." // <– static string
-            //PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, _configuration["AdminPassword"])
+            NormalizedEmail = "ADMINA@STRATOR.COMX",
+            EmailConfirmed = true,
+            PasswordHash = "AQAAAAIAAYagAAAAEEkthWzE9RlmvYZa0Gl0ej4SzvCr2YJXzvMXVWlYYGrCDVV7sQKFMCHXs3PU0YZRaQ==",
+            SecurityStamp = "admin-static-security-stamp",
+            ConcurrencyStamp = "admin-static-concurrency-stamp"
         });
 
         modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
@@ -42,6 +46,7 @@ public class PetalPeelDbContext : IdentityDbContext<IdentityUser>
             RoleId = "c3aaeb97-d2ba-4a53-a521-4eea61e59b35",
             UserId = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f"
         });
+
         modelBuilder.Entity<UserProfile>().HasData(new UserProfile
         {
             Id = 1,

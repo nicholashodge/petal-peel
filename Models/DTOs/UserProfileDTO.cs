@@ -20,4 +20,5 @@ public class UserProfileDTO
 
     public List<Mocktail> Mocktails { get; set; }
     public string FullName => $"{FirstName} {LastName}";
+
 }

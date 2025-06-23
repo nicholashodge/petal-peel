@@ -19,7 +19,6 @@ public class MocktailController : ControllerBase
 
     [HttpGet]
     // [Authorize]
-
     public IActionResult GetMocktail()
     {
         return Ok(_dbContext.Mocktails

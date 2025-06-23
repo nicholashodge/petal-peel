@@ -3,7 +3,7 @@ const _apiUrl = "/api/auth";
 export const login = (email, password) => {
   return fetch(_apiUrl + "/login", {
     method: "POST",
-    credentials: "same-origin",
+    credentials: "include",
     headers: {
       Authorization: `Basic ${btoa(`${email}:${password}`)}`,
     },
@@ -21,7 +21,9 @@ export const logout = () => {
 };
 
 export const tryGetLoggedInUser = () => {
-  return fetch(_apiUrl + "/me").then((res) => {
+  return fetch(_apiUrl + "/me", {
+    credentials: "include"
+  }).then((res) => {
     return res.status === 401 ? Promise.resolve(null) : res.json();
   });
 };

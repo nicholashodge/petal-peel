@@ -1,3 +1,3 @@
-export const getAllIngredients = () => {
-    return fetch("/api/Mocktail").then((res) => res.json())
+export const getAllIngredients = async () => {
+    return await fetch("/api/Ingredient").then((res) => res.json())
 }
