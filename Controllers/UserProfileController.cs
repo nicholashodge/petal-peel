@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using PetalPeel.Models;
+using PetalPeel.Models.DTOs;
 using PetalPeel.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using PetalPeel.Models.DTOs;
+using System.Security.Claims;
+
 
 namespace PetalPeel.Controllers;
 
@@ -47,6 +49,38 @@ public class UserProfileController : ControllerBase
             .ToList()
         }));
     }
+
+    [HttpGet("me")]
+    //[Authorize]
+    public IActionResult GetCurrentUser()
+    {
+        var identityUserId = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+
+        var user = _dbContext.UserProfiles
+            .Include(up => up.IdentityUser)
+            .SingleOrDefault(up => up.IdentityUserId == identityUserId);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        var dto = new UserProfileDTO
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.IdentityUser.Email,
+            UserName = user.IdentityUser.UserName,
+            Roles = _dbContext.UserRoles
+                .Where(ur => ur.UserId == user.IdentityUserId)
+                .Select(ur => _dbContext.Roles.FirstOrDefault(r => r.Id == ur.RoleId).Name)
+                .ToList()
+        };
+
+        return Ok(dto);
+    }
+
 
     [HttpPost("promote/{id}")]
     [Authorize(Roles = "Admin")]
@@ -127,10 +161,6 @@ public class UserProfileController : ControllerBase
             userProfile.IdentityUser.NormalizedUserName = updatedUser.UserName.ToUpper();
         }
 
-        if (!string.IsNullOrEmpty(updatedUser.Address))
-        {
-            // Optional: Store `Address` in a new property on UserProfile if you haven't yet
-        }
 
         // Update password if provided
         if (!string.IsNullOrEmpty(updatedUser.Password))

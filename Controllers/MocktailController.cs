@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using PetalPeel.Data;
 using PetalPeel.Models;
 using PetalPeel.Models.DTOs;
+using System.Security.Claims;
+
 
 [ApiController]
 [Route("api/[controller]")]
@@ -46,6 +48,21 @@ public class MocktailController : ControllerBase
         return Ok(mocktail);
     }
 
+    [HttpGet("mine")]
+    [Authorize]
+    public IActionResult GetMyMocktails()
+    {
+        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var myMocktails = _dbContext.Mocktails
+            .Include(m => m.Author)
+            .Include(m => m.MocktailIngredients)
+                .ThenInclude(mi => mi.Ingredient)
+            .Where(m => m.Author.IdentityUserId == identityUserId)
+            .ToList();
+
+        return Ok(myMocktails);
+    }
+
     [HttpDelete("{id}")]
     //[Authorize]
     public IActionResult DeleteMocktail(int id)
@@ -60,13 +77,41 @@ public class MocktailController : ControllerBase
 
     [HttpPost]
     //[Authorize]
-    public async Task<IActionResult> PostMocktail(Mocktail mocktail)
+    public async Task<IActionResult> PostMocktail([FromBody] MocktailDTO dto)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userProfile = _dbContext.UserProfiles.FirstOrDefault(up => up.IdentityUserId == identityUserId);
+        if (userProfile == null) return Unauthorized();
+
+        if (dto.MocktailIngredients == null || !dto.MocktailIngredients.Any())
+        {
+            return BadRequest("Mocktail must have at least one ingredient.");
+        }
+
+        var mocktail = new Mocktail
+        {
+            Name = dto.Name,
+            Description = dto.Description,
+            Instructions = dto.Instructions,
+            AuthorId = userProfile.Id,
+            MocktailIngredients = dto.MocktailIngredients.Select(mi => new MocktailIngredient
+            {
+                IngredientId = mi.IngredientId,
+                Quantity = mi.Quantity
+            }).ToList()
+        };
+
         _dbContext.Mocktails.Add(mocktail);
         await _dbContext.SaveChangesAsync();
 
-        return Created($"/api/category/{mocktail.Id}", mocktail);
+        return Created($"/api/mocktail/{mocktail.Id}", mocktail);
     }
+
 
     [HttpPut("{id}")]
     //[Authorize]
@@ -85,6 +130,7 @@ public class MocktailController : ControllerBase
         //Editable Properties
         MocktailToUpdate.Name = mocktail.Name;
         MocktailToUpdate.Description = mocktail.Description;
+        MocktailToUpdate.Instructions = mocktail.Instructions;
 
         _dbContext.SaveChanges();
 
