@@ -1,3 +1,3 @@
 export const getAllIngredients = async () => {
-    return await fetch("/api/Ingredient").then((res) => res.json())
+    return await fetch("/api/ingredient").then((res) => res.json())
 }

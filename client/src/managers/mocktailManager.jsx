@@ -1,13 +1,13 @@
 export const getAllMocktails = async () => {
-    return await fetch("/api/Mocktail").then((res) => res.json())
+    return await fetch("/api/mocktail").then((res) => res.json())
 }
 
 export const getMocktailById = async (id) => {
-    return await fetch(`/api/Mocktail/${id}`).then((res) => res.json())
+    return await fetch(`/api/mocktail/${id}`).then((res) => res.json())
 }
 
 export const createMocktail = async (mocktail) => {
-    return await fetch("/api/Mocktail",
+    return await fetch("/api/mocktail",
     {
         method: "POST",
         headers: 
@@ -19,7 +19,7 @@ export const createMocktail = async (mocktail) => {
 }
 
 export const updateMocktail = async (mocktail, id) => {
-    return await fetch(`/api/Mocktail/${id}`,
+    return await fetch(`/api/mocktail/${id}`,
     {
         method: "PUT",
         headers: 
@@ -31,7 +31,7 @@ export const updateMocktail = async (mocktail, id) => {
 }
 
 export const deleteMocktail = async (id) => {
-    return await fetch(`/api/Mocktail/${id}`,
+    return await fetch(`/api/mocktail/${id}`,
         {
             method: "DELETE"
         }
