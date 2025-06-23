@@ -132,6 +132,7 @@ public class PetalPeelDbContext : IdentityDbContext<IdentityUser>
                 Id = 1,
                 Name = "Cucumber Mule",
                 Description = "A crisp and invigorating twist on the classic mule, this mocktail blends the refreshing essence of muddled cucumber with the zing of freshly squeezed lime juice and the bold snap of ginger beer. Served over ice in a copper mug and garnished with a cucumber ribbon and sprig of mint, the Cucumber Mule is the perfect cool-down companion—herbaceous, spicy, and delightfully effervescent.",
+                Instructions = "1. Mix lime juice, simple syrup, and ginger ale.\n2. Shake or stir.\n3. Add mint leaves.",
                 AuthorId = 1
             },
             new Mocktail
@@ -139,6 +140,7 @@ public class PetalPeelDbContext : IdentityDbContext<IdentityUser>
                 Id = 2,
                 Name = "Raspberry Mojito",
                 Description = "A vibrant burst of summer in every sip, this non-alcoholic Raspberry Mojito fuses juicy raspberries with muddled mint and zesty lime for a refreshing twist on a Cuban classic. Topped with sparkling soda water and served over crushed ice, it’s a perfectly balanced blend of tart, sweet, and cool—finished with a mint sprig and a handful of fresh berries for a pop of color and flavor.",
+                Instructions = "1. Mix raspberry puree with lime juice, then add to Sprite.\n2. Crush two mint leaves into cup.\n3. Add liquid and remaining leaves to cup.",
                 AuthorId = 1
             }
         });

@@ -1,0 +1,44 @@
+.mocktail-details-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #fefefe;
+}
+
+.mocktail-details-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+}
+
+.mocktail-details-card h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.mocktail-description {
+  margin: 1rem 0;
+  color: #555;
+}
+
+.mocktail-ingredients {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.mocktail-ingredients li {
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.mocktail-ingredients li::before {
+  content: "•";
+  color: #ff69b4;
+  position: absolute;
+  left: 0;
+}

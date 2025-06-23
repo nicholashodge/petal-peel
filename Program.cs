@@ -49,7 +49,8 @@ builder.Services.AddIdentityCore<IdentityUser>(config =>
                 config.User.RequireUniqueEmail = true;
             })
     .AddRoles<IdentityRole>()  //add the role service.  
-    .AddEntityFrameworkStores<PetalPeelDbContext>();
+    .AddEntityFrameworkStores<PetalPeelDbContext>()
+    .AddDefaultTokenProviders(); 
 
 // allows passing datetimes without time zone data 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetalPeel.Data;
@@ -11,9 +12,11 @@ using PetalPeel.Data;
 namespace PetalPeel.Migrations
 {
     [DbContext(typeof(PetalPeelDbContext))]
-    partial class PetalPeelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250623102349_UpdateInstructionsToMocktail")]
+    partial class UpdateInstructionsToMocktail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetalPeel.Data;
@@ -11,9 +12,11 @@ using PetalPeel.Data;
 namespace PetalPeel.Migrations
 {
     [DbContext(typeof(PetalPeelDbContext))]
-    partial class PetalPeelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250623102157_AddInstructionsToMocktail")]
+    partial class AddInstructionsToMocktail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -341,6 +344,7 @@ namespace PetalPeel.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Instructions")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -367,7 +371,7 @@ namespace PetalPeel.Migrations
                             Id = 2,
                             AuthorId = 1,
                             Description = "A vibrant burst of summer in every sip, this non-alcoholic Raspberry Mojito fuses juicy raspberries with muddled mint and zesty lime for a refreshing twist on a Cuban classic. Topped with sparkling soda water and served over crushed ice, it’s a perfectly balanced blend of tart, sweet, and cool—finished with a mint sprig and a handful of fresh berries for a pop of color and flavor.",
-                            Instructions = "1. Mix raspberry puree with lime juice, then add to Sprite.\n2. Crush two mint leaves into cup.\n3. Add liquid and remaining leaves to cup.",
+                            Instructions = "2. Mix raspberry puree with lime juice, then add to Sprite.\n2. Crush two mint leaves into cup.\n3. Add liquid and remaining leaves to cup.",
                             Name = "Raspberry Mojito"
                         });
                 });
