@@ -32,6 +32,12 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                   <NavLink tag={RRNavLink} to="/">
                     Mocktails
                   </NavLink>
+                  <NavLink tag={RRNavLink} to="/mocktail/mine">
+                  My Recipes
+                  </NavLink>
+                  <NavLink tag={RRNavLink} to="/account">
+                  My Account
+                  </NavLink>
             </Nav>
             </Collapse>
             <Button
