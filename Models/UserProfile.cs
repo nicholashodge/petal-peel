@@ -21,7 +21,9 @@ public class UserProfile
 
     [NotMapped]
     public string Email { get; set; }
-    
+
+    public string? Password { get; set; }
+
     [NotMapped]
     public List<string> Roles { get; set; }
 

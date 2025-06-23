@@ -11,8 +11,10 @@ public class Mocktail
 
     public string Description { get; set; }
 
+    public string? Instructions { get; set; }
+
     public int AuthorId { get; set; }
-    public UserProfile Author { get; set; }
+    public UserProfile? Author { get; set; }
 
     public List<MocktailIngredient>? MocktailIngredients { get; set; }
 
