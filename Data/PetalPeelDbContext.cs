@@ -33,7 +33,8 @@ public class PetalPeelDbContext : IdentityDbContext<IdentityUser>
             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
             UserName = "Administrator",
             Email = "admina@strator.comx",
-            PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, _configuration["AdminPassword"])
+            PasswordHash = "AQAAAAIAAYagAAAAED+ci5mOXpsPBnPUJRxvX..." // <– static string
+            //PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, _configuration["AdminPassword"])
         });
 
         modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
