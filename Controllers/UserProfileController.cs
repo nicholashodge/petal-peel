@@ -4,6 +4,7 @@ using PetalPeel.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using PetalPeel.Models.DTOs;
 
 namespace PetalPeel.Controllers;
 
@@ -96,5 +97,57 @@ public class UserProfileController : ControllerBase
         user.UserName = user.IdentityUser.UserName;
         return Ok(user);
     }
+
+    [HttpPut("{id}")]
+    [Authorize]
+    public async Task<IActionResult> UpdateUser(int id, [FromBody] UserProfileDTO updatedUser)
+    {
+        var userProfile = await _dbContext.UserProfiles
+            .Include(up => up.IdentityUser)
+            .SingleOrDefaultAsync(up => up.Id == id);
+
+        if (userProfile == null)
+        {
+            return NotFound();
+        }
+
+        // Update profile fields
+        userProfile.FirstName = updatedUser.FirstName;
+        userProfile.LastName = updatedUser.LastName;
+
+        if (!string.IsNullOrEmpty(updatedUser.Email))
+        {
+            userProfile.IdentityUser.Email = updatedUser.Email;
+            userProfile.IdentityUser.NormalizedEmail = updatedUser.Email.ToUpper();
+        }
+
+        if (!string.IsNullOrEmpty(updatedUser.UserName))
+        {
+            userProfile.IdentityUser.UserName = updatedUser.UserName;
+            userProfile.IdentityUser.NormalizedUserName = updatedUser.UserName.ToUpper();
+        }
+
+        if (!string.IsNullOrEmpty(updatedUser.Address))
+        {
+            // Optional: Store `Address` in a new property on UserProfile if you haven't yet
+        }
+
+        // Update password if provided
+        if (!string.IsNullOrEmpty(updatedUser.Password))
+        {
+            var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<IdentityUser>>();
+            var token = await userManager.GeneratePasswordResetTokenAsync(userProfile.IdentityUser);
+            var result = await userManager.ResetPasswordAsync(userProfile.IdentityUser, token, updatedUser.Password);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest("Password update failed.");
+            }
+        }
+
+        await _dbContext.SaveChangesAsync();
+        return NoContent();
+    }
+
 
 }

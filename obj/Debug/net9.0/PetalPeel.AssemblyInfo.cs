@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PetalPeel")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+56d4c6ab890428b1fdccb8ef9f315849030b403e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2bcf2d4161553d954ec9251f9c9f0ef53f9b00f0")]
 [assembly: System.Reflection.AssemblyProductAttribute("PetalPeel")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PetalPeel")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

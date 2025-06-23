@@ -24,9 +24,7 @@ public class MocktailController : ControllerBase
         return Ok(_dbContext.Mocktails
         .Include(m => m.Author)
         .Include(m => m.MocktailIngredients)
-            .ThenInclude(mi => mi.Ingredient)
-        .Include(m => m.MocktailIngredients)
-            .ThenInclude(mi => mi.Quantity));
+            .ThenInclude(mi => mi.Ingredient));
     }
 
      [HttpGet("{id}")]
@@ -38,8 +36,6 @@ public class MocktailController : ControllerBase
             .Include(m => m.Author)
             .Include(m => m.MocktailIngredients)
                 .ThenInclude(mi => mi.Ingredient)
-            .Include(m => m.MocktailIngredients)
-                .ThenInclude(mi => mi.Quantity)
             .SingleOrDefault(m => m.Id == id);
 
         if (mocktail == null)
