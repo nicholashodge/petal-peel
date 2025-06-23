@@ -36,4 +36,6 @@ public class UserProfile
             return $"{FirstName} {LastName}";
         }
     }
+
+    public List<Mocktail> Mocktails { get; set; }
 }

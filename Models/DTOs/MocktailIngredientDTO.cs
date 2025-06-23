@@ -6,4 +6,5 @@ public class MocktailIngredientDTO {
     public MocktailDTO? Mocktail { get; set; }
     public int IngredientId { get; set; }
     public IngredientDTO? Ingredient { get; set; }
+    public double Quantity { get; set; }
 }

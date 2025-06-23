@@ -1,0 +1,6 @@
+@PetalPeel_HostAddress = http://localhost:5160
+
+GET {{PetalPeel_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
